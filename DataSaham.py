@@ -20,7 +20,7 @@ def get_data(csv_file):
 
     count = 1
     berhasil, gagal = 0,0
-    for kode in df["kode"][140:]:
+    for kode in df["kode"]:
         os.system("cls")
         print(f"collecting data ({kode}) {count}/{total_data}")
         url = f"https://finance.yahoo.com/quote/{kode}.JK/history?p={kode}.JK"
