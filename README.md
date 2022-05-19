@@ -2,4 +2,4 @@
 
 1. Clone repo
 2. install requirments
-3. run
+3. run GUI.py
