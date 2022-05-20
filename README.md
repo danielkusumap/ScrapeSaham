@@ -1,5 +1,5 @@
 # ScrapeSaham
 
 1. Clone repo
-2. install requirments
-3. run
+2. install requirements
+3. run GUI.py
