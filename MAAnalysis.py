@@ -14,6 +14,7 @@ class MAAnalysis(QDialog):
         self.ma = ""
         self.max_loss= -3
         self.list_transaksi = []
+        self.list_transaksi_return = []
 
         self.ma_combobox_urutkan.activated[str].connect(self.urutkan)
         self.ma_checkbox.stateChanged.connect(self.checkbox_state)
@@ -114,6 +115,11 @@ class MAAnalysis(QDialog):
             list_transaksi = self.list_transaksi[::-1]
         elif urutkan == "Terlama":
             list_transaksi = self.list_transaksi
+        elif urutkan == "%Tertinggi":
+            list_transaksi = [i[1] for i in sorted(self.list_transaksi_return)[::-1]]
+        elif urutkan == "%Terendah":
+            list_transaksi = [i[1] for i in sorted(self.list_transaksi_return)]
+        self.list_transaksi_return.clear()
         self.ma_table_detail.setRowCount(0)
         total = len(list_transaksi)
         self.ma_table_detail.setRowCount(total)
@@ -124,12 +130,19 @@ class MAAnalysis(QDialog):
             self.ma_table_detail.setItem(i, 2, QTableWidgetItem(str(list_transaksi[i][2])))
             self.ma_table_detail.setItem(i, 3, QTableWidgetItem(str(list_transaksi[i][3])))
             returnnya = round(((list_transaksi[i][3] - list_transaksi[i][2])/list_transaksi[i][2])*100,2)
+            self.list_transaksi_return.append([returnnya, list_transaksi[i]])
             return_sum += returnnya
             self.ma_table_detail.setItem(i, 4, QTableWidgetItem(str(f"{returnnya}%")))
 
+        # print(self.list_transaksi_return[:5])
+        # print(sorted(self.list_transaksi_return)[:5])
+        # print(self.list_transaksi_return[:5])
         # self.ma_average_return.setText(f"Avg Return: {round(return_sum/len(list_transaksi),2)}%")
         self.ma_average_return.setText(f"Total Return: {round(return_sum,2)}%")
 
     def urutkan(self):
         urut = self.ma_combobox_urutkan.currentText()
-        self.inputToTable(urutkan=urut)
+        try:
+            self.inputToTable(urutkan=urut)
+        except:
+            pass
