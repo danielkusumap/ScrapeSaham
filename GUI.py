@@ -67,6 +67,7 @@ class Ui(QtWidgets.QMainWindow):
 
         self.listSaham.message_signal.connect(self.put_message)
         # self.dataSaham.message_signal.connect(self.put_message)
+        
         sektor = [x.value for x in Sektor]
         self.sektor_key = [x for x in Sektor]
         emiten = self.readList()
@@ -122,7 +123,7 @@ class Ui(QtWidgets.QMainWindow):
         if self.emitennya == "":
             # self.message_label.setText("")
             # self.message = ""  
-            self.put_message("silahkan pilih emiten dulu")
+            self.put_message("silahkan pilih emiten dulu\n")
         else:
             self.data_emiten(False)
 
@@ -146,7 +147,7 @@ class Ui(QtWidgets.QMainWindow):
         
         else:
             self.list_data = ""
-            # self.disabledElement(False, True)
+            self.disabledElement(False, True)
             if f"{self.emitennya}.JK.csv" in listdir("data_saham"):
                 self.put_message(f"{self.emitennya} found in local\n")
                 self.put_message("Collecting data may take a while\n")
@@ -233,11 +234,18 @@ class Ui(QtWidgets.QMainWindow):
         self.ma_analysis_button.setDisabled(button)
 
     def put_message(self, text):
-        currentime = datetime.datetime.now()
-        mixed = currentime.strftime('%H:%M:%S')
-        text = f"[{mixed}] {text}"
-        self.message += text
-        self.message_label.setText(self.message)
+        if text == "started":
+            self.get_list_button.setDisabled(True)
+            self.get_all_data_button.setDisabled(True)
+        elif text == "finished":
+            self.get_list_button.setDisabled(False)
+            self.get_all_data_button.setDisabled(False)
+        else:
+            currentime = datetime.datetime.now()
+            mixed = currentime.strftime('%H:%M:%S')
+            text = f"[{mixed}] {text}"
+            self.message += text
+            self.message_label.setText(self.message)
 
     def get_sektor(self):
         self.sektornya = self.combo_box_sektor.currentText()
